@@ -11,6 +11,10 @@
 #define PIN 6
 #define BRIGHTNESS 2
 
+//Change This Message To Whatever You Want To Send
+char* MessageToSend = "Josh";
+char* MessageRecieved;
+
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
 
 // For the breakout, you can use any 2 or 3 pins
@@ -107,8 +111,8 @@ void setup(void) {
   tft.setCursor(0, 30);
   tft.setTextColor(ST77XX_GREEN);
   tft.setTextSize(2);
-  //tft.println(" Josh");
-  //tft.println("  Is");
+  tft.println(" Hack");
+  tft.println("  Me");
   //tft.println(" 1337!");
 
 }
@@ -116,7 +120,7 @@ void setup(void) {
 void loop() {
 
   //Radio
- char radiopacket[20] = "JoshLCD";
+  char* radiopacket = {MessageToSend};
   Serial.print("Sending "); Serial.println(radiopacket);
   
   // Send a message!
@@ -132,12 +136,28 @@ void loop() {
     if (rf69.recv(buf, &len)) {
       Serial.print("Got a reply: ");
       Serial.println((char*)buf);
+      MessageRecieved = ((char*)buf);
       tft.fillScreen(ST77XX_BLACK);
       tft.setCursor(0, 30);
       tft.setTextColor(ST77XX_GREEN);
       tft.setTextSize(2);
       tft.println((char*)buf);
       tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        if (MessageRecieved = "Josh") {
+           colorWipe(strip.Color(0, 255, 0), 50); // Green
+        }
+        if (MessageRecieved = "Derrick") {
+           colorWipe(strip.Color(0, 0, 255), 50); // Blue
+        }
+        if (MessageRecieved = "Brandon") {
+           colorWipe(strip.Color(255, 0, 0), 50); // Red
+        }
+        if (MessageRecieved = "Rick") {
+           colorWipe(strip.Color(255, 128, 0), 50); // Orange
+        }
+        if (MessageRecieved = "Randle") {
+           colorWipe(strip.Color(128, 0, 255), 50); // Purple
+        }
     } else {
       Serial.println("Receive failed");
     }
@@ -154,6 +174,7 @@ void loop() {
   //tft.setCursor(0, 30);
 
   //Lights
+
   colorWipe(strip.Color(255, 0, 0), 50); // Red
   colorWipe(strip.Color(0, 255, 0), 50); // Green
   colorWipe(strip.Color(0, 0, 255), 50); // Blue
