@@ -141,8 +141,8 @@ void loop() {
       tft.setCursor(0, 30);
       tft.setTextColor(ST77XX_GREEN);
       tft.setTextSize(2);
-      tft.println(("Hacked");
-      tft.println(("By");
+      tft.println("Hacked");
+      tft.println("By");
       tft.println((char*)buf);
       tft.print("RSSI: "); tft.print(rf69.lastRssi());
         if (MessageRecieved = "Josh") {
