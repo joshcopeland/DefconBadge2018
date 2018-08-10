@@ -73,6 +73,7 @@ void setup(void) {
     Serial.println("setFrequency failed");
   }
 
+  rf69.setTxPower(14, true);
   // The encryption key has to be the same as the one in the server
   uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
                     0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
@@ -110,7 +111,7 @@ void setup(void) {
   tft.fillScreen(ST77XX_BLACK);
   tft.setCursor(0, 30);
   tft.setTextColor(ST77XX_GREEN);
-  tft.setTextSize(2);
+  tft.setTextSize(3);
   tft.println(" Hack");
   tft.println("  Me");
   //tft.println(" 1337!");
@@ -169,11 +170,19 @@ void loop() {
 
   //Screen  
   //tft.invertDisplay(true);
-  delay(500);
+  delay(5000);
   //tft.invertDisplay(false);
   //delay(500);
   //tft.fillScreen(ST77XX_BLACK);
   //tft.setCursor(0, 30);
+  tft.setTextWrap(false);
+  tft.setRotation(1);
+  tft.fillScreen(ST77XX_BLACK);
+  tft.setCursor(0, 30);
+  tft.setTextColor(ST77XX_GREEN);
+  tft.setTextSize(3);
+  tft.println(" Hack");
+  tft.println("  Me");
 
   //Lights
 
