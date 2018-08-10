@@ -14,6 +14,9 @@ char* MessageToSend = "3";
 
 char* MessageRecieved;
 String HackedName;
+int hackedCounter=0;
+int RSSILevel;
+String HackingProgress;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -74,13 +77,21 @@ void setup(void) {
   uint16_t time = millis();
   tft.fillScreen(ST77XX_BLACK);
   time = millis() - time;
+  tft.setTextWrap(false);
+  tft.setRotation(1);
+  tft.fillScreen(ST77XX_BLACK);
+  tft.drawChar( 22, 37, 'H', 0x3fe5, 0x0000,4);
+  tft.drawChar( 48, 37, '4', 0xf8ed, 0x0000,4);
+  tft.drawChar( 74, 37, 'c', 0x3fe5, 0x0000,4);
+  tft.drawChar( 100, 37, 'k', 0x3fe5, 0x0000,4);
+  tft.drawChar( 48, 70, 'M', 0x3fe5, 0x0000,4);
+  tft.drawChar( 74, 70, '3', 0xf8ed, 0x0000,4);
 
   Serial.println(time, DEC);
   delay(500);
 }
 
 void loop() {
-
   //Radio
   char* radiopacket = {MessageToSend};
   Serial.print("Sending "); Serial.println(radiopacket);
@@ -91,7 +102,6 @@ void loop() {
 
   // Now wait for a reply
   uint8_t buf[RH_RF69_MAX_MESSAGE_LEN];
-  //uint8_t len = sizeof(buf);
   uint8_t len = sizeof(buf);
 
   if (rf69.waitAvailableTimeout(500))  { 
@@ -100,98 +110,121 @@ void loop() {
       Serial.print("Got a reply: ");
       Serial.println((char*)buf);
       MessageRecieved = ((char*)buf);
+      char MessageRecieved2=MessageRecieved[0];
+      Serial.println(MessageRecieved2);
+      Serial.print("Hacked Counter: ");
+      Serial.println(hackedCounter);
       tft.fillScreen(ST77XX_BLACK);
       tft.setCursor(0, 30);     
-      if(strcmp(MessageRecieved, "1") == 0) {
-        tft.setTextSize(2);
-        tft.setTextColor(ST77XX_YELLOW);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_GREEN);
-        tft.println("Josh");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(0, 255, 0), 50); // Green 
-        colorWipe(strip.Color(0, 255, 0), 0); // Green  
-        colorWipe(strip.Color(0, 255, 0), 50); // Green  
-        colorWipe(strip.Color(0, 255, 0), 0); // Green
-        //comment out this goto if you are not Rick
-        goto Rick;  
-      }
-      else if(strcmp(MessageRecieved, "2") == 0) {
-        tft.setTextSize(2);
-        tft.setTextColor(ST77XX_YELLOW);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_RED);
-        tft.println("Derrick");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(255, 0, 0), 50); // Red
-        colorWipe(strip.Color(0, 0, 0), 50); // Red
-        colorWipe(strip.Color(255, 0, 0), 50); // Red 
-        colorWipe(strip.Color(0, 0, 0), 50); // Red
-        //comment out this goto if you are not Rick
-        goto Rick;
-      }
-      else if(strcmp(MessageRecieved, "3") == 0) {
-        tft.setTextSize(2);
-        tft.setTextColor(ST77XX_YELLOW);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_BLUE);
-        tft.println("Brandon");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(0, 0, 255), 50); // Blue
-        colorWipe(strip.Color(0, 0, 0), 50); // Blue
-        colorWipe(strip.Color(0, 0, 255), 50); // Blue  
-        colorWipe(strip.Color(0, 0, 0), 50); // Blue 
-        //comment out this goto if you are not Rick
-        goto Rick; 
-      }
-      else if(strcmp(MessageRecieved, "4") == 0) {
-        tft.setTextSize(2);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_ORANGE);
-        tft.println("Rick");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(255, 128, 0), 50); // Orange 
-        colorWipe(strip.Color(0, 0, 0), 50); // Orange 
-        colorWipe(strip.Color(255, 128, 0), 50); // Orange
-        colorWipe(strip.Color(0, 0, 0), 50); // Orange
-        //comment out this goto if you are not Rick
-        goto Rick;
-      }
-      else if(strcmp(MessageRecieved, "5") == 0) {
-        tft.setTextSize(2);
-        tft.setTextColor(ST77XX_YELLOW);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_MAGENTA);
-        tft.println("Randle");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(128, 0, 255), 50); // Purple
-        colorWipe(strip.Color(0, 0, 0), 50); // Purple
-        colorWipe(strip.Color(128, 0, 255), 50); // Purple
-        colorWipe(strip.Color(0, 0, 0), 50); // Purple
-        //comment out this goto if you are not Rick
-        goto Rick;
-      }
-       else if(strcmp(MessageRecieved, "6") == 0) {
-        tft.setTextSize(2);
-        tft.setTextColor(ST77XX_YELLOW);
-        tft.println("Hacked");
-        tft.println("By");
-        tft.setTextColor(ST77XX_WHITE);
-        tft.println("Tatum");
-        tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        colorWipe(strip.Color(255, 255, 255), 50); // White
-        colorWipe(strip.Color(255, 255, 255), 50); // White
-        colorWipe(strip.Color(255, 255, 255), 50); // White
-        colorWipe(strip.Color(255, 255, 255), 50); // White
-        //comment out this goto if you are not Rick
-        goto Rick;
-      }
+      tft.setTextSize(3);
+      tft.setTextColor(ST77XX_YELLOW);
+      tft.setCursor(0, 0);
+      tft.println("Hacked");
+      tft.println("By");
+      switch(MessageRecieved2) {
+      
+        case 1:
+          tft.setTextColor(ST77XX_GREEN);
+          tft.println("Josh");
+          colorWipe(strip.Color(0, 255, 0), 50); // Green 
+          colorWipe(strip.Color(0, 255, 0), 0); // Green  
+          colorWipe(strip.Color(0, 255, 0), 50); // Green  
+          colorWipe(strip.Color(0, 255, 0), 0); // Green
+          break;
+       
+        case 2:
+          tft.setTextColor(ST77XX_RED);
+          tft.println("Derrick");
+          colorWipe(strip.Color(255, 0, 0), 50); // Red
+          colorWipe(strip.Color(0, 0, 0), 50); // Red
+          colorWipe(strip.Color(255, 0, 0), 50); // Red 
+          colorWipe(strip.Color(0, 0, 0), 50); // Red
+          break;
 
+        case 3:
+          tft.setTextColor(ST77XX_BLUE);
+          tft.println("Brandon");
+          colorWipe(strip.Color(0, 0, 255), 50); // Blue
+          colorWipe(strip.Color(0, 0, 0), 50); // Blue
+          colorWipe(strip.Color(0, 0, 255), 50); // Blue  
+          colorWipe(strip.Color(0, 0, 0), 50); // Blue
+          break;
+
+        case 4:
+          tft.setTextColor(ST77XX_MAGENTA);
+          tft.println("Rick");
+          colorWipe(strip.Color(128, 0, 255), 50); // Purple
+          colorWipe(strip.Color(0, 0, 0), 50); // Purple
+          colorWipe(strip.Color(128, 0, 255), 50); // Purple
+          colorWipe(strip.Color(0, 0, 0), 50); // Purple
+          break;
+
+        case 5:
+          tft.setTextColor(ST77XX_ORANGE);
+          tft.println("Randle");
+          colorWipe(strip.Color(255, 128, 0), 50); // Orange 
+          colorWipe(strip.Color(0, 0, 0), 50); // Orange 
+          colorWipe(strip.Color(255, 128, 0), 50); // Orange
+          colorWipe(strip.Color(0, 0, 0), 50); // Orange
+          break;
+
+        case 6:
+          tft.setTextColor(ST77XX_WHITE);
+          tft.println("Tatum");
+          colorWipe(strip.Color(255, 255, 255), 50); // White 
+          colorWipe(strip.Color(0, 0, 0), 50); // White 
+          colorWipe(strip.Color(255, 128, 0), 50); // White
+          colorWipe(strip.Color(0, 0, 0), 50); // White
+          break;
+
+        default: //this is optional. I'm worried if we get garbage or interference we will see "I heart KGB alot...
+          tft.fillScreen(ST77XX_BLACK);
+          tft.drawChar( 52, 9, 'I', 0xf7ff, 0x0000,5);
+          //building heart, this took many hours and is totally not worth it
+          tft.fillCircle(56, 63, 12, 0xf900);
+          tft.fillCircle(78, 63, 12, 0xf900);
+          tft.fillTriangle(44, 63, 90, 63, 67, 90, 0xf900);
+          //clening up area from circle that passes the triangle
+          tft.drawLine(43,63,66,90,0x0000);
+          tft.drawLine(42,63,65,90,0x0000);
+          tft.drawLine(41,63,64,90,0x0000);
+          tft.drawLine(40,63,63,90,0x0000);
+          tft.drawLine(91,63,68,90,0x0000);
+          tft.drawLine(92,63,69,90,0x0000);
+          tft.drawLine(93,63,70,90,0x0000);
+          tft.drawLine(93,63,71,90,0x0000);
+          tft.drawLine(94,63,72,90,0x0000);
+          tft.drawChar( 5, 94, 'K', 0xf540, 0x0000,5);
+          tft.drawChar( 52, 94, 'G', 0x0760, 0x0000,5);
+          tft.drawChar( 98, 94, 'B', 0x01f, 0x0000,5);
+          break;
+        }
+       
+       tft.setTextSize(2);
+       tft.println("");
+       tft.setTextColor(0xf8ed);
+       tft.println("PROGRESS:");
+       RSSILevel = rf69.lastRssi();
+       if (RSSILevel <= -15 && RSSILevel >= -30) {
+         HackingProgress = "[xxxxxxxx]";
+       }
+       else if (RSSILevel < -30 && RSSILevel >= -45) {
+         HackingProgress = "[xxxxxx  ]";
+       }
+       else if (RSSILevel < -45 && RSSILevel >= -60) {
+         HackingProgress = "[xxxx    ]";
+       }
+       else if (RSSILevel < -60 && RSSILevel >= -75) {
+         HackingProgress = "[xx      ]";
+       }
+       else if (RSSILevel < -75) {
+         HackingProgress = "[x       ]";
+       }          
+       tft.setTextColor(0x0000ff);
+       tft.println(HackingProgress);
+       hackedCounter=0;
+      
+/*    Uncomment this to troll people...
       Rick:
       tft.fillScreen(ST77XX_BLACK);
       tft.drawChar( 52, 9, 'I', 0xf7ff, 0x0000,5);
@@ -212,28 +245,35 @@ void loop() {
       tft.drawChar( 5, 94, 'K', 0xf540, 0x0000,5);
       tft.drawChar( 52, 94, 'G', 0x0760, 0x0000,5);
       tft.drawChar( 98, 94, 'B', 0x01f, 0x0000,5);
+*/
     } 
     else {
       Serial.println("Receive failed");
     }
-  } else {
+  }  else {
     Serial.println("No reply, is another RFM69 listening?");
+    hackedCounter=hackedCounter+1;
+    Serial.print("Hacked Counter in else: ");
+    Serial.println(hackedCounter);
+    
+    if(hackedCounter==20) {
+      tft.setTextWrap(false);
+      tft.setRotation(1);
+      tft.fillScreen(ST77XX_BLACK);
+      tft.drawChar( 22, 37, 'H', 0x3fe5, 0x0000,4);
+      tft.drawChar( 48, 37, '4', 0xf8ed, 0x0000,4);
+      tft.drawChar( 74, 37, 'c', 0x3fe5, 0x0000,4);
+      tft.drawChar( 100, 37, 'k', 0x3fe5, 0x0000,4);
+      tft.drawChar( 48, 70, 'M', 0x3fe5, 0x0000,4);
+      tft.drawChar( 74, 70, '3', 0xf8ed, 0x0000,4); 
+      hackedCounter=0;
+    
+      //Lights
+      colorWipe(strip.Color(255, 0, 0), 50); // Red
+      colorWipe(strip.Color(0, 255, 0), 50); // Green
+      colorWipe(strip.Color(0, 0, 255), 50); // Blue
+    }
   }
-
-  tft.setTextWrap(false);
-  tft.setRotation(1);
-  tft.fillScreen(ST77XX_BLACK);
-  tft.drawChar( 22, 37, 'H', 0x3fe5, 0x0000,4);
-  tft.drawChar( 48, 37, '4', 0xf8ed, 0x0000,4);
-  tft.drawChar( 74, 37, 'c', 0x3fe5, 0x0000,4);
-  tft.drawChar( 100, 37, 'k', 0x3fe5, 0x0000,4);
-  tft.drawChar( 48, 70, 'M', 0x3fe5, 0x0000,4);
-  tft.drawChar( 74, 70, '3', 0xf8ed, 0x0000,4); 
-
-  //Lights
-  colorWipe(strip.Color(255, 0, 0), 50); // Red
-  colorWipe(strip.Color(0, 255, 0), 50); // Green
-  colorWipe(strip.Color(0, 0, 255), 50); // Blue
 }
 
 void colorWipe(uint32_t c, uint8_t wait) {
