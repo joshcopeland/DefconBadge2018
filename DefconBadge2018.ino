@@ -12,8 +12,9 @@
 #define BRIGHTNESS 2
 
 //Change This Message To Whatever You Want To Send
-char* MessageToSend = "Josh";
+char* MessageToSend = "1";
 char* MessageRecieved;
+String HackedName;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -130,6 +131,7 @@ void loop() {
 
   // Now wait for a reply
   uint8_t buf[RH_RF69_MAX_MESSAGE_LEN];
+  //uint8_t len = sizeof(buf);
   uint8_t len = sizeof(buf);
 
   if (rf69.waitAvailableTimeout(500))  { 
@@ -140,28 +142,82 @@ void loop() {
       MessageRecieved = ((char*)buf);
       tft.fillScreen(ST77XX_BLACK);
       tft.setCursor(0, 30);
-      tft.setTextColor(ST77XX_GREEN);
-      tft.setTextSize(2);
-      tft.println("Hacked");
-      tft.println("By");
-      tft.println((char*)buf);
-      tft.print("RSSI: "); tft.print(rf69.lastRssi());
-        if (MessageRecieved = "Josh") {
-           colorWipe(strip.Color(0, 255, 0), 50); // Green
-        }
-        if (MessageRecieved = "Derrick") {
-           colorWipe(strip.Color(0, 0, 255), 50); // Blue
-        }
-        if (MessageRecieved = "Brandon") {
-           colorWipe(strip.Color(255, 0, 0), 50); // Red
-        }
-        if (MessageRecieved = "Rick") {
-           colorWipe(strip.Color(255, 128, 0), 50); // Orange
-        }
-        if (MessageRecieved = "Randle") {
-           colorWipe(strip.Color(128, 0, 255), 50); // Purple
-        }
-    } else {
+      //tft.setTextColor(ST77XX_GREEN);
+      //tft.setTextSize(2);
+      //tft.println("Hacked");
+      //tft.println("By");
+      //tft.println((char*)buf);
+      //tft.print("RSSI: "); tft.print(rf69.lastRssi());
+      
+      if(strcmp(MessageRecieved, "1") == 0) {
+        tft.setTextSize(2);
+        tft.println("Hacked");
+        tft.println("By");
+        tft.println("Josh");
+        tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        colorWipe(strip.Color(0, 255, 0), 50); // Green 
+        colorWipe(strip.Color(0, 255, 0), 0); // Green  
+        colorWipe(strip.Color(0, 255, 0), 50); // Green  
+        colorWipe(strip.Color(0, 255, 0), 0); // Green  
+ 
+      }
+      else if(strcmp(MessageRecieved, "2") == 0) {
+        tft.setTextSize(2);
+        tft.println("Hacked");
+        tft.println("By");
+        tft.println("Derrick");
+        tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        colorWipe(strip.Color(255, 0, 0), 50); // Red
+        colorWipe(strip.Color(0, 0, 0), 50); // Red
+        colorWipe(strip.Color(255, 0, 0), 50); // Red 
+        colorWipe(strip.Color(0, 0, 0), 50); // Red 
+ 
+      }
+      else if(strcmp(MessageRecieved, "3") == 0) {
+        tft.setTextSize(2);
+        tft.println("Hacked");
+        tft.println("By");
+        tft.println("Brandon");
+        tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        colorWipe(strip.Color(0, 0, 255), 50); // Blue
+        colorWipe(strip.Color(0, 0, 0), 50); // Blue
+        colorWipe(strip.Color(0, 0, 255), 50); // Blue  
+        colorWipe(strip.Color(0, 0, 0), 50); // Blue  
+      }
+      else if(strcmp(MessageRecieved, "4") == 0) {
+        tft.setTextSize(2);
+        tft.println("Hacked");
+        tft.println("By");
+        tft.println("Rick");
+        tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        colorWipe(strip.Color(255, 128, 0), 50); // Orange 
+        colorWipe(strip.Color(0, 0, 0), 50); // Orange 
+        colorWipe(strip.Color(255, 128, 0), 50); // Orange
+        colorWipe(strip.Color(0, 0, 0), 50); // Orange
+      }
+      else if(strcmp(MessageRecieved, "5") == 0) {
+        tft.setTextSize(2);
+        tft.println("Hacked");
+        tft.println("By");
+        tft.println("Randle");
+        tft.print("RSSI: "); tft.print(rf69.lastRssi());
+        colorWipe(strip.Color(128, 0, 255), 50); // Purple
+        colorWipe(strip.Color(0, 0, 0), 50); // Purple
+        colorWipe(strip.Color(128, 0, 255), 50); // Purple
+        colorWipe(strip.Color(0, 0, 0), 50); // Purple
+      }
+
+
+    //  tft.fillScreen(ST77XX_BLACK);
+    //  tft.setCursor(0, 30);
+    //  tft.setTextColor(ST77XX_GREEN);
+    //  tft.setTextSize(2);
+    //  tft.println("Hacked");
+    //  tft.println("By");
+    //  tft.println(HackedName);
+
+    } 
+    else {
       Serial.println("Receive failed");
     }
   } else {
@@ -170,7 +226,7 @@ void loop() {
 
   //Screen  
   //tft.invertDisplay(true);
-  delay(5000);
+ //// delay(5000);
   //tft.invertDisplay(false);
   //delay(500);
   //tft.fillScreen(ST77XX_BLACK);
@@ -186,9 +242,9 @@ void loop() {
 
   //Lights
 
-  colorWipe(strip.Color(255, 0, 0), 50); // Red
-  colorWipe(strip.Color(0, 255, 0), 50); // Green
-  colorWipe(strip.Color(0, 0, 255), 50); // Blue
+ // colorWipe(strip.Color(255, 0, 0), 50); // Red
+ // colorWipe(strip.Color(0, 255, 0), 50); // Green
+ // colorWipe(strip.Color(0, 0, 255), 50); // Blue
 }
 
 void colorWipe(uint32_t c, uint8_t wait) {
